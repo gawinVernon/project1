@@ -28,13 +28,19 @@ const storeUserController = require('./controllers/storeUserController');
 const loginUserController = require('./controllers/loginUserController');
 const logoutController = require('./controllers/logoutController');
 
+// middlewares
+const redirectIfAuth = require('./middleware/redirectIfAuth');
+
+//
 app.use(express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(flash());
 app.use(
   session({
-    secret: 'node secret'
+    secret: 'node secret',
+    cookie: { maxAge: 60000 },
+    saveUninitialized: false
   })
 );
 app.use('*', (req, res, next) => {
@@ -44,10 +50,10 @@ app.use('*', (req, res, next) => {
 app.set('view engine', 'ejs');
 
 app.get('/', indexController);
-app.get('/login', loginController);
-app.get('/register', registerController);
-app.post('/user/register', storeUserController);
-app.post('/user/login', loginUserController);
+app.get('/login', redirectIfAuth, loginController);
+app.get('/register', redirectIfAuth, registerController);
+app.post('/user/register', redirectIfAuth, storeUserController);
+app.post('/user/login', redirectIfAuth, loginUserController);
 app.get('/logout', logoutController);
 
 app.listen(PORT, () => {
