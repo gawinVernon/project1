@@ -53,12 +53,20 @@
     <!-- <img class="mb-4" src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57"> -->
     <h1 class="h3 mb-3 fw-normal">Sign up</h1>
 
+    <% if(errors != null && errors.length > 0) { %>
+      <% for(let i = 0; i < errors.length; i++) { %> 
+        <p class="alert alert-danger">
+          <%= errors[i] %>
+        </p>
+      <% } %> 
+    <% } %>
+
     <div class="form-floating">
-      <input type="email" name="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+      <input type="email" name="email" value="<%= email %>" class="form-control" id="floatingInput" placeholder="">
       <label for="floatingInput">Email address</label>
     </div>
     <div class="form-floating">
-      <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password">
+      <input type="password" name="password" value="<%= password %>" class="form-control" id="floatingPassword" placeholder="">
       <label for="floatingPassword">Password</label>
     </div>
 

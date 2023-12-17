@@ -13,10 +13,16 @@
         <li><a href="#" class="nav-link px-2">FAQs</a></li>
         <li><a href="#" class="nav-link px-2">About</a></li>
       </ul>
-
       <div class="col-md-3 text-end">
-        <a type="button" class="btn btn-outline-primary me-2" href="/login">Login</a>
-        <a type="button" class="btn btn-primary" href="/register">Sign up</a>
+        <% if(loggedIn) { %>
+            <a type="button" class="btn btn-outline-primary me-2" href="/login">Login</a>
+            <a type="button" class="btn btn-primary" href="/register">Sign up</a>        
+        <% } %>
+
+        <% if(!loggedIn) {%>
+            <a type="button" class="btn btn-danger" href="/logout">Logout</a>
+        <% } %>
+      
       </div>
     </header>
   </div>
