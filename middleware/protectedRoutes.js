@@ -1,7 +1,7 @@
 module.exports = (req, res, next) => {
-  if (req.session.userId) {
+  if (!req.session.userId) {
     return setTimeout(() => {
-      res.redirect('/home');
+      res.redirect('/');
     }, 1000);
   }
   next();

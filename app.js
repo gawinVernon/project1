@@ -3,6 +3,9 @@ const ejs = require('ejs');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const flash = require('connect-flash');
+const { JSDOM } = require('jsdom');
+const { window } = new JSDOM('');
+const $ = require('jquery')(window);
 const app = express();
 const PORT = 3000;
 
@@ -12,11 +15,6 @@ mongoose.connect(
   { useNewUrlParser: true }
 );
 mongoose.connection.on('connected', () => console.log('connected'));
-mongoose.connection.on('open', () => console.log('open'));
-mongoose.connection.on('disconnected', () => console.log('disconnected'));
-mongoose.connection.on('reconnected', () => console.log('reconnected'));
-mongoose.connection.on('disconnecting', () => console.log('disconnecting'));
-mongoose.connection.on('close', () => console.log('close'));
 
 global.loggedIn = null;
 
@@ -27,9 +25,11 @@ const registerController = require('./controllers/registerController');
 const storeUserController = require('./controllers/storeUserController');
 const loginUserController = require('./controllers/loginUserController');
 const logoutController = require('./controllers/logoutController');
+const homeController = require('./controllers/homeController');
 
 // middlewares
 const redirectIfAuth = require('./middleware/redirectIfAuth');
+const protectedRoutes = require('./middleware/protectedRoutes');
 
 //
 app.use(express.static('public'));
@@ -40,7 +40,8 @@ app.use(
   session({
     secret: 'node secret',
     cookie: { maxAge: 60000 },
-    saveUninitialized: false
+    saveUninitialized: false,
+    resave: false
   })
 );
 app.use('*', (req, res, next) => {
@@ -49,13 +50,14 @@ app.use('*', (req, res, next) => {
 });
 app.set('view engine', 'ejs');
 
-app.get('/', indexController);
+app.get('/', redirectIfAuth, indexController);
 app.get('/login', redirectIfAuth, loginController);
 app.get('/register', redirectIfAuth, registerController);
 app.post('/user/register', redirectIfAuth, storeUserController);
 app.post('/user/login', redirectIfAuth, loginUserController);
 app.get('/logout', logoutController);
+app.get('/home', protectedRoutes, homeController);
 
 app.listen(PORT, () => {
-  console.log(`app is listening on port: ${PORT}`);
+  console.log(`app is listening on port: ${PORT}...`);
 });

@@ -1,0 +1,15 @@
+<%- include('../partials/head.ejs') %>
+<%- include('../partials/header.ejs') %>
+<body class="text-center">
+     <script>
+    $(document).ready(function () {
+        setTimeout(() => {
+        $('#3sec').css("display", "none")
+    }, 3000)
+        });
+    </script> 
+    <p class="alert alert-success" style="margin: auto; width: 10%; padding: 10px;" id="3sec"><%= success %></p>
+    <h2 id="index-welcome">Welcome!</h2>
+    </p>
+</body>
+<%- include('../partials/footer.ejs') %>

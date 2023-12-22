@@ -5,7 +5,20 @@ const bcrypt = require('bcrypt');
 const UserSchema = new Schema({
   email: {
     type: String,
-    required: [true, 'please provide email!']
+    required: [true, 'please provide email!'],
+    validate: {
+      validator: async function (email) {
+        const user = await this.constructor.findOne({ email });
+        if (user) {
+          if (this.id === user.id) {
+            return true;
+          }
+          return false;
+        }
+        return true;
+      },
+      message: () => 'this email address has already been used.'
+    }
   },
   password: {
     type: String,
