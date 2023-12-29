@@ -1,16 +1,19 @@
+require('dotenv').config();
+
 const express = require('express');
 const ejs = require('ejs');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const flash = require('connect-flash');
 const app = express();
-const PORT = 3000;
+const mongoString = process.env.DATABASE_URL;
+const PORT = process.env.PORT || 3000;
+const routes = require('./routes/routes');
+const cors = require('cors');
+const axios = require('axios');
 
 //MongoDB connection
-mongoose.connect(
-  'mongodb+srv://admin:1234@cluster0.y9dyfbf.mongodb.net/?retryWrites=true&w=majority',
-  { useNewUrlParser: true }
-);
+mongoose.connect(mongoString, { useNewUrlParser: true });
 mongoose.connection.on('error', (error) => {
   console.log(error);
 });
@@ -26,6 +29,8 @@ const storeUserController = require('./controllers/storeUserController');
 const loginUserController = require('./controllers/loginUserController');
 const logoutController = require('./controllers/logoutController');
 const homeController = require('./controllers/homeController');
+const productsController = require('./controllers/productsController');
+const aboutController = require('./controllers/aboutController');
 
 // middlewares
 const redirectIfAuth = require('./middleware/redirectIfAuth');
@@ -49,6 +54,10 @@ app.use('*', (req, res, next) => {
   next();
 });
 app.set('view engine', 'ejs');
+app.use(cors());
+
+// API
+app.use('/api/v1', routes);
 
 // routes
 app.get('/', redirectIfAuth, indexController);
@@ -58,6 +67,8 @@ app.post('/user/register', redirectIfAuth, storeUserController);
 app.post('/user/login', redirectIfAuth, loginUserController);
 app.get('/logout', logoutController);
 app.get('/home', protectedRoutes, homeController);
+app.get('/products', protectedRoutes, productsController);
+app.get('/about', aboutController);
 
 //test route
 app.get('/test', (req, res) => {
