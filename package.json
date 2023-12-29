@@ -19,7 +19,9 @@
     "express-session": "^1.17.3",
     "jquery": "^3.7.1",
     "jsdom": "^23.0.1",
-    "mongoose": "^8.0.3"
+    "mongoose": "^8.0.3",
+    "sass": "^1.69.5",
+    "scss": "^0.2.4"
   },
   "devDependencies": {
     "nodemon": "^3.0.2"

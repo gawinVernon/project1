@@ -1,15 +1,22 @@
 <%- include('../partials/head.ejs') %>
 <%- include('../partials/header.ejs') %>
-<body class="text-center">
+
+<body id="body">
      <script>
-    $(document).ready(function () {
+    //jquery
+        // $(document).ready(function () {
+        //     setTimeout(() => {
+        //     $('#3sec').css("display", "none")
+        // }, 3000)
+        //     });
+    //vanilla js
         setTimeout(() => {
-        $('#3sec').css("display", "none")
-    }, 3000)
-        });
+            document.getElementById('3sec').style.display = 'none'
+        }, 3000)
+
     </script> 
     <p class="alert alert-success" style="margin: auto; width: 10%; padding: 10px;" id="3sec"><%= success %></p>
-    <h2 id="index-welcome">Welcome!</h2>
+    <h2 id="text-center" style="text-align: center;">Welcome back!</h2>
     </p>
 </body>
 <%- include('../partials/footer.ejs') %>

@@ -3,9 +3,6 @@ const ejs = require('ejs');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const flash = require('connect-flash');
-const { JSDOM } = require('jsdom');
-const { window } = new JSDOM('');
-const $ = require('jquery')(window);
 const app = express();
 const PORT = 3000;
 
@@ -14,7 +11,10 @@ mongoose.connect(
   'mongodb+srv://admin:1234@cluster0.y9dyfbf.mongodb.net/?retryWrites=true&w=majority',
   { useNewUrlParser: true }
 );
-mongoose.connection.on('connected', () => console.log('connected'));
+mongoose.connection.on('error', (error) => {
+  console.log(error);
+});
+mongoose.connection.on('connected', () => console.log('database connected'));
 
 global.loggedIn = null;
 
@@ -50,6 +50,7 @@ app.use('*', (req, res, next) => {
 });
 app.set('view engine', 'ejs');
 
+// routes
 app.get('/', redirectIfAuth, indexController);
 app.get('/login', redirectIfAuth, loginController);
 app.get('/register', redirectIfAuth, registerController);
@@ -58,6 +59,12 @@ app.post('/user/login', redirectIfAuth, loginUserController);
 app.get('/logout', logoutController);
 app.get('/home', protectedRoutes, homeController);
 
+//test route
+app.get('/test', (req, res) => {
+  res.render('pages/test');
+});
+
+// server
 app.listen(PORT, () => {
   console.log(`app is listening on port: ${PORT}...`);
 });
