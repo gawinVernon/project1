@@ -23,6 +23,7 @@ router.get('/getAll', async (req, res) => {
     res.json(data);
   } catch (error) {
     res.status(500).json({ message: error.message });
+    console.log(error);
   }
 });
 

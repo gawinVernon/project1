@@ -31,6 +31,7 @@ const logoutController = require('./controllers/logoutController');
 const homeController = require('./controllers/homeController');
 const productsController = require('./controllers/productsController');
 const aboutController = require('./controllers/aboutController');
+const createController = require('./controllers/createController');
 
 // middlewares
 const redirectIfAuth = require('./middleware/redirectIfAuth');
@@ -57,7 +58,7 @@ app.set('view engine', 'ejs');
 app.use(cors());
 
 // API
-app.use('/api/v1', routes);
+app.use('/api/v1', protectedRoutes, routes);
 
 // routes
 app.get('/', redirectIfAuth, indexController);
@@ -69,10 +70,20 @@ app.get('/logout', logoutController);
 app.get('/home', protectedRoutes, homeController);
 app.get('/products', protectedRoutes, productsController);
 app.get('/about', aboutController);
+app.get('/create', createController);
 
 //test route
 app.get('/test', (req, res) => {
-  res.render('pages/test');
+  res.render('pages/test', {
+    title: 'test'
+  });
+});
+
+//error404
+app.use((req, res) => {
+  res.render('pages/error', {
+    title: 'ERROR'
+  });
 });
 
 // server

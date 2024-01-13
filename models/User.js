@@ -23,6 +23,10 @@ const UserSchema = new Schema({
   password: {
     type: String,
     required: [true, 'please provide password!']
+  },
+  passwordConfirm: {
+    type: String,
+    required: [true, 'incorrect password!']
   }
 });
 

@@ -1,10 +1,27 @@
+
 <%- include('../partials/head.ejs') %>
 <%- include('../partials/header.ejs') %>
 
 <body class="text-center">
-  <ul>
-    <li><a href="/api/v1/getAll">View All Products</a></li>
-  </ul>
+
+<div class="data-content">
+<table class="table table-striped">
+    <tr>
+    <th>Name</th>
+    <th>Price</th>
+  </tr>
+<% if(product.length > 0) { %>
+<% product.forEach(data => { %>
+  
+  <tr>
+    <td><%= data.name %></td>
+    <td><%= data.price %></td>
+  </tr>
+  
+<% }) %>
+<% } %>
+</table>
+</div>
 </body>
 
 <%- include('../partials/footer.ejs') %>
