@@ -81,13 +81,6 @@ app.get('/create', protectedRoutes, createController);
 app.post('/product/create', protectedRoutes, storeProductController);
 >>>>>>> b721722 (15/1)
 
-//test route
-app.get('/test', (req, res) => {
-  res.render('pages/test', {
-    title: 'test'
-  });
-});
-
 //error404
 app.use((req, res) => {
   res.render('pages/error', {
