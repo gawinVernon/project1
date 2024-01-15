@@ -2,6 +2,11 @@ const express = require('express');
 const router = express.Router();
 const Product = require('../models/Product');
 
+<<<<<<< HEAD
+=======
+// ./api/v1
+
+>>>>>>> b721722 (15/1)
 //Post Method
 router.post('/post', async (req, res) => {
   const data = new Product({

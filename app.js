@@ -32,6 +32,10 @@ const homeController = require('./controllers/homeController');
 const productsController = require('./controllers/productsController');
 const aboutController = require('./controllers/aboutController');
 const createController = require('./controllers/createController');
+<<<<<<< HEAD
+=======
+const storeProductController = require('./controllers/storeProductController');
+>>>>>>> b721722 (15/1)
 
 // middlewares
 const redirectIfAuth = require('./middleware/redirectIfAuth');
@@ -70,7 +74,12 @@ app.get('/logout', logoutController);
 app.get('/home', protectedRoutes, homeController);
 app.get('/products', protectedRoutes, productsController);
 app.get('/about', aboutController);
+<<<<<<< HEAD
 app.get('/create', createController);
+=======
+app.get('/create', protectedRoutes, createController);
+app.post('/product/create', protectedRoutes, storeProductController);
+>>>>>>> b721722 (15/1)
 
 //test route
 app.get('/test', (req, res) => {

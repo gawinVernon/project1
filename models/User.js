@@ -22,6 +22,7 @@ const UserSchema = new Schema({
   },
   password: {
     type: String,
+<<<<<<< HEAD
     required: [true, 'please provide password!']
   },
   passwordConfirm: {
@@ -44,6 +45,50 @@ UserSchema.pre('save', function (next) {
     });
 });
 
+=======
+    required: [true, 'please provide password!'],
+    minLength: [4, 'password is too short (4 minimum)']
+  },
+  passwordConfirm: {
+    type: String,
+    minLength: [4, 'password is too short (4 minimum)'],
+    required: [true, 'Please confirm your password'],
+    validate: {
+      // this only works on CREATE and  SAVE!!!!
+      validator: function (el) {
+        return el === this.password;
+      },
+      message: 'Password and password confirmation do not match.'
+    }
+  }
+});
+
+UserSchema.pre('save', async function (next) {
+  // Only run this function if password was actually modified
+  if (!this.isModified('password')) return next();
+
+  // Hash the password with cost of 12
+  this.password = await bcrypt.hash(this.password, 10);
+
+  // Delete passwordConfirm field
+  this.passwordConfirm = undefined;
+  next();
+});
+
+// UserSchema.pre('save', function (next) {
+//   const user = this;
+//   bcrypt
+//     .hash(user.password, 10)
+//     .then((hash) => {
+//       user.password = hash;
+//       next();
+//     })
+//     .catch((error) => {
+//       console.error(error);
+//     });
+// });
+
+>>>>>>> b721722 (15/1)
 const User = mongoose.model('User', UserSchema);
 
 module.exports = User;
