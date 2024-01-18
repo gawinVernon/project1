@@ -60,6 +60,11 @@ UserSchema.pre('save', function (next) {
       },
       message: 'Password and password confirmation do not match.'
     }
+  },
+  role: {
+    type: String,
+    enum: ['user', 'admin'],
+    default: 'user'
   }
 });
 
