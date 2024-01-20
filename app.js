@@ -11,6 +11,8 @@ const PORT = process.env.PORT || 3000;
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
 const methodOverride = require('method-override');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 
 //MongoDB connection
 mongoose.connect(mongoString, { useNewUrlParser: true });
@@ -48,10 +50,10 @@ const redirectIfAuth = require('./middleware/redirectIfAuth');
 const protectedRoutes = require('./middleware/protectedRoutes');
 const adminRoutes = require('./middleware/adminRoutes');
 
-// app use
+//
 app.use(express.static('public'));
 app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
 app.use(flash());
 app.use(
   session({
@@ -61,13 +63,14 @@ app.use(
     resave: false
   })
 );
+app.use(cookieParser());
+
 app.use('*', (req, res, next) => {
   loggedIn = req.session.userId;
   next();
 });
 app.set('view engine', 'ejs');
 app.use(cors());
-// _method
 app.use(methodOverride('_method'));
 
 // limiter

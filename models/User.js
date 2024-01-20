@@ -5,6 +5,8 @@ const bcrypt = require('bcrypt');
 const UserSchema = new Schema({
   email: {
     type: String,
+    lowercase: true,
+    trim: true,
     required: [true, 'please provide email!'],
     validate: {
       validator: async function (email) {
@@ -63,7 +65,7 @@ UserSchema.pre('save', function (next) {
   },
   role: {
     type: String,
-    enum: ['user', 'admin'],
+    enum: ['user', 'admin', 'super-admin'],
     default: 'user'
   }
 });

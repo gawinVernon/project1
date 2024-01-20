@@ -5,7 +5,7 @@ module.exports = async (req, res) => {
   const { email, password } = req.body;
   await setTimeout(() => {
     User.findOne({ email: email }).then((user) => {
-      // console.log(user);
+      console.log(user);
       if (user) {
         let cmp = bcrypt.compare(password, user.password).then((match) => {
           if (match) {
@@ -17,8 +17,9 @@ module.exports = async (req, res) => {
           }
         });
       } else {
+        req.flash('loginF', 'login failed');
         res.redirect('/login');
       }
     });
-  }, 2000);
+  }, 1000);
 };
