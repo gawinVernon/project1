@@ -46,9 +46,8 @@ const deleteController = require('./controllers/deleteController');
 >>>>>>> e37389b (18/1)
 
 // middlewares
-const redirectIfAuth = require('./middleware/redirectIfAuth');
-const protectedRoutes = require('./middleware/protectedRoutes');
-const adminRoutes = require('./middleware/adminRoutes');
+const { redirectIfAuth } = require('./middleware/redirectIfAuth');
+const { protectedRoutes, checkUser } = require('./middleware/protectedRoutes');
 
 //
 app.use(express.static('public'));
@@ -64,14 +63,15 @@ app.use(
   })
 );
 app.use(cookieParser());
-
-app.use('*', (req, res, next) => {
-  loggedIn = req.session.userId;
-  next();
-});
 app.set('view engine', 'ejs');
 app.use(cors());
 app.use(methodOverride('_method'));
+// all routes
+app.use('*', (req, res, next) => {
+  const token = req.cookies.jwt;
+  loggedIn = token;
+  next();
+});
 
 // limiter
 const limiter = rateLimit({
@@ -88,6 +88,7 @@ app.get('/register', redirectIfAuth, registerController);
 app.post('/user/register', redirectIfAuth, storeUserController);
 app.post('/user/login', redirectIfAuth, loginUserController);
 app.get('/logout', logoutController);
+<<<<<<< HEAD
 app.get('/home', protectedRoutes, homeController);
 app.get('/products', productsController);
 app.get('/about', aboutController);
@@ -103,9 +104,19 @@ app.get('/products/:id', protectedRoutes, updateController);
 app.put('/products/:id', protectedRoutes, updateProductController);
 app.delete('/products/:id', protectedRoutes, deleteController);
 >>>>>>> e37389b (18/1)
+=======
+app.get('/home', protectedRoutes, checkUser, homeController);
+app.get('/products', checkUser, productsController);
+app.get('/about', checkUser, aboutController);
+app.get('/create', protectedRoutes, checkUser, createController);
+app.post('/product/create', protectedRoutes, checkUser, storeProductController);
+app.get('/products/:id', protectedRoutes, checkUser, updateController);
+app.put('/products/:id', protectedRoutes, checkUser, updateProductController);
+app.delete('/products/:id', protectedRoutes, checkUser, deleteController);
+>>>>>>> 944364c (21/1)
 
 //error404
-app.use((req, res) => {
+app.use(checkUser, (req, res) => {
   res.render('pages/error', {
     title: 'ERROR'
   });

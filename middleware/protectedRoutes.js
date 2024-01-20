@@ -1,8 +1,38 @@
-module.exports = (req, res, next) => {
-  if (!req.session.userId) {
-    return setTimeout(() => {
-      res.redirect('/');
-    }, 1000);
+const jwt = require('jsonwebtoken');
+const User = require('../models/User');
+
+const protectedRoutes = (req, res, next) => {
+  const token = req.cookies.jwt;
+
+  if (token) {
+    jwt.verify(token, 'supersecret', async (err, decodedToken) => {
+      if (err) {
+        // console.log(err.message);
+        res.redirect('/login');
+      } else {
+        // console.log(decodedToken);
+        next();
+      }
+    });
+  } else {
+    res.redirect('/login');
   }
-  next();
 };
+
+const checkUser = (req, res, next) => {
+  const token = req.cookies.jwt;
+  jwt.verify(token, 'supersecret', async (err, decodedToken) => {
+    if (err) {
+      // console.log(err.message);
+      res.locals.user = null;
+      next();
+    } else {
+      // console.log(decodedToken);
+      let user = await User.findById(decodedToken.id);
+      res.locals.user = user;
+      next();
+    }
+  });
+};
+
+module.exports = { protectedRoutes, checkUser };

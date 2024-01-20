@@ -19,13 +19,14 @@
       </ul>
 
 
-      <div class="col-md-3 text-end">
+      <div class="col-md-3 text-end d-flex">
         <% if(!loggedIn) { %>
             <a type="button" class="btn btn-primary me-2" href="/login">Login</a>
             <a type="button" class="btn btn-primary" href="/register">Sign up</a>        
         <% } %>
 
         <% if(loggedIn) {%>
+            <p>Welcome <%= user.email %></p>
             <a type="button" class="btn btn-danger" href="/logout">Logout</a>
         <% } %>
       

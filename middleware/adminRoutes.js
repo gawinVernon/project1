@@ -1,1 +1,1 @@
-module.exports;
+const jwt = require('jsonwebtoken');
