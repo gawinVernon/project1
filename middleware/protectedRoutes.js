@@ -35,4 +35,15 @@ const checkUser = (req, res, next) => {
   });
 };
 
-module.exports = { protectedRoutes, checkUser };
+const adminRoutes = (roles) => {
+  return (req, res, next) => {
+    const token = jwt.verify(req.cookies.jwt, 'supersecret');
+    console.log('role:' + token.id.role);
+    if (!roles.includes(token.id.role)) {
+      return res.status(403).json({ message: 'not admin' });
+    }
+    if (roles.includes(token.id.role)) next();
+  };
+};
+
+module.exports = { protectedRoutes, checkUser, adminRoutes };

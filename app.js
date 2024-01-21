@@ -47,7 +47,11 @@ const deleteController = require('./controllers/deleteController');
 
 // middlewares
 const { redirectIfAuth } = require('./middleware/redirectIfAuth');
-const { protectedRoutes, checkUser } = require('./middleware/protectedRoutes');
+const {
+  protectedRoutes,
+  checkUser,
+  adminRoutes
+} = require('./middleware/protectedRoutes');
 
 //
 app.use(express.static('public'));
@@ -109,11 +113,42 @@ app.get('/home', protectedRoutes, checkUser, homeController);
 app.get('/products', checkUser, productsController);
 app.get('/about', checkUser, aboutController);
 app.get('/create', protectedRoutes, checkUser, createController);
+<<<<<<< HEAD
 app.post('/product/create', protectedRoutes, checkUser, storeProductController);
 app.get('/products/:id', protectedRoutes, checkUser, updateController);
 app.put('/products/:id', protectedRoutes, checkUser, updateProductController);
 app.delete('/products/:id', protectedRoutes, checkUser, deleteController);
 >>>>>>> 944364c (21/1)
+=======
+app.post(
+  '/product/create',
+  protectedRoutes,
+  checkUser,
+  adminRoutes('admin'),
+  storeProductController
+);
+app.get(
+  '/products/:id',
+  protectedRoutes,
+  checkUser,
+  adminRoutes('admin'),
+  updateController
+);
+app.put(
+  '/products/:id',
+  protectedRoutes,
+  checkUser,
+  adminRoutes('admin'),
+  updateProductController
+);
+app.delete(
+  '/products/:id',
+  protectedRoutes,
+  checkUser,
+  adminRoutes('admin'),
+  deleteController
+);
+>>>>>>> c7c5a7e (21/1 done)
 
 //error404
 app.use(checkUser, (req, res) => {
