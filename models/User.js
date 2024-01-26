@@ -24,29 +24,6 @@ const UserSchema = new Schema({
   },
   password: {
     type: String,
-
-    required: [true, 'please provide password!']
-  },
-  passwordConfirm: {
-    type: String,
-    required: [true, 'incorrect password!']
-  }
-});
-
-UserSchema.pre('save', function (next) {
-  const user = this;
-
-  bcrypt
-    .hash(user.password, 10)
-    .then((hash) => {
-      user.password = hash;
-      next();
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-});
-
     required: [true, 'please provide password!'],
     minLength: [4, 'password is too short (4 minimum)']
   },
@@ -81,21 +58,6 @@ UserSchema.pre('save', async function (next) {
   this.passwordConfirm = undefined;
   next();
 });
-
-
-// UserSchema.pre('save', function (next) {
-//   const user = this;
-//   bcrypt
-//     .hash(user.password, 10)
-//     .then((hash) => {
-//       user.password = hash;
-//       next();
-//     })
-//     .catch((error) => {
-//       console.error(error);
-//     });
-// });
-
 
 const User = mongoose.model('User', UserSchema);
 
