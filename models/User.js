@@ -24,7 +24,7 @@ const UserSchema = new Schema({
   },
   password: {
     type: String,
-<<<<<<< HEAD
+
     required: [true, 'please provide password!']
   },
   passwordConfirm: {
@@ -47,7 +47,6 @@ UserSchema.pre('save', function (next) {
     });
 });
 
-=======
     required: [true, 'please provide password!'],
     minLength: [4, 'password is too short (4 minimum)']
   },
@@ -83,7 +82,7 @@ UserSchema.pre('save', async function (next) {
   next();
 });
 
-<<<<<<< HEAD
+
 // UserSchema.pre('save', function (next) {
 //   const user = this;
 //   bcrypt
@@ -97,9 +96,7 @@ UserSchema.pre('save', async function (next) {
 //     });
 // });
 
->>>>>>> b721722 (15/1)
-=======
->>>>>>> 944364c (21/1)
+
 const User = mongoose.model('User', UserSchema);
 
 module.exports = User;
