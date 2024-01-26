@@ -34,16 +34,10 @@ const homeController = require('./controllers/homeController');
 const productsController = require('./controllers/productsController');
 const aboutController = require('./controllers/aboutController');
 const createController = require('./controllers/createController');
-<<<<<<< HEAD
-=======
 const storeProductController = require('./controllers/storeProductController');
-<<<<<<< HEAD
->>>>>>> b721722 (15/1)
-=======
 const updateController = require('./controllers/updateController');
 const updateProductController = require('./controllers/updateProductController');
 const deleteController = require('./controllers/deleteController');
->>>>>>> e37389b (18/1)
 
 // middlewares
 const { redirectIfAuth } = require('./middleware/redirectIfAuth');
@@ -92,34 +86,10 @@ app.get('/register', redirectIfAuth, registerController);
 app.post('/user/register', redirectIfAuth, storeUserController);
 app.post('/user/login', redirectIfAuth, loginUserController);
 app.get('/logout', logoutController);
-<<<<<<< HEAD
-app.get('/home', protectedRoutes, homeController);
-app.get('/products', productsController);
-app.get('/about', aboutController);
-<<<<<<< HEAD
-app.get('/create', createController);
-=======
-app.get('/create', protectedRoutes, createController);
-app.post('/product/create', protectedRoutes, storeProductController);
-<<<<<<< HEAD
->>>>>>> b721722 (15/1)
-=======
-app.get('/products/:id', protectedRoutes, updateController);
-app.put('/products/:id', protectedRoutes, updateProductController);
-app.delete('/products/:id', protectedRoutes, deleteController);
->>>>>>> e37389b (18/1)
-=======
 app.get('/home', protectedRoutes, checkUser, homeController);
 app.get('/products', checkUser, productsController);
 app.get('/about', checkUser, aboutController);
 app.get('/create', protectedRoutes, checkUser, createController);
-<<<<<<< HEAD
-app.post('/product/create', protectedRoutes, checkUser, storeProductController);
-app.get('/products/:id', protectedRoutes, checkUser, updateController);
-app.put('/products/:id', protectedRoutes, checkUser, updateProductController);
-app.delete('/products/:id', protectedRoutes, checkUser, deleteController);
->>>>>>> 944364c (21/1)
-=======
 app.post(
   '/product/create',
   protectedRoutes,
@@ -148,7 +118,6 @@ app.delete(
   adminRoutes('admin'),
   deleteController
 );
->>>>>>> c7c5a7e (21/1 done)
 
 //error404
 app.use(checkUser, (req, res) => {
