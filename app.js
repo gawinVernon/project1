@@ -6,13 +6,15 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const flash = require('connect-flash');
 const app = express();
-const mongoString = process.env.DATABASE_URL;
 const PORT = process.env.PORT || 3000;
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
 const methodOverride = require('method-override');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+
+// DB URL
+const mongoString = process.env.DATABASE_URL;
 
 //MongoDB connection
 mongoose.connect(mongoString, { useNewUrlParser: true });
